@@ -1,0 +1,29 @@
+diff --git a/lib/plugins/defaults/stdout.rb b/lib/plugins/defaults/stdout.rb
+index 54ef357..064419b 100755
+--- a/lib/plugins/defaults/stdout.rb
++++ b/lib/plugins/defaults/stdout.rb
+@@ -100,6 +100,12 @@ module Termtter
+ 
+       format_column(outputs, not_replies, justs)
+ 
++      outputs.map! do |t|
++        t = Client.get_hooks(:pre_coloring).inject(t){|result, hook| hook.call(result, event)}
++        t = TermColor.parse(t)
++        TermColor.unescape(t)
++      end
++
+       if config.plugins.stdout.enable_pager && ENV['LINES'] && statuses.size > ENV['LINES'].to_i
+         file = Tempfile.new('termtter')
+         file.puts outputs
+@@ -174,10 +180,7 @@ module Termtter
+       formats = config.plugins.stdout.timeline_format.split(/\|\|[><]/)
+ 
+       erbed_texts = formats.map do |format|
+-        t = ERB.new(format).result(binding)
+-        t = Client.get_hooks(:pre_coloring).inject(t){|result, hook| hook.call(result, event)}
+-        t = TermColor.parse(t)
+-        TermColor.unescape(t)
++        ERB.new(format).result(binding)
+       end
+ 
+       if indent > 0

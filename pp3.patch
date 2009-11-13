@@ -1,0 +1,13 @@
+diff --git a/lib/plugins/defaults/stdout.rb b/lib/plugins/defaults/stdout.rb
+index 064419b..b6a6604 100755
+--- a/lib/plugins/defaults/stdout.rb
++++ b/lib/plugins/defaults/stdout.rb
+@@ -118,7 +118,7 @@ module Termtter
+     end
+ 
+     def uncolored(str)
+-      str.gsub(/\e\[([0-9]+m)/, '')
++      str.gsub(/<\/?[^>]+>/, '')
+     end
+ 
+     def format_column(lines, not_replies, justs)
