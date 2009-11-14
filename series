@@ -11,4 +11,5 @@ shortcut.patch
 friends.patch
 system_extensions.rb.diff
 streamreadline.patch
+update.patch
 streamdebug.patch
