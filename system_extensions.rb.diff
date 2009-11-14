@@ -1,0 +1,27 @@
+diff --git a/lib/termtter/system_extensions.rb b/lib/termtter/system_extensions.rb
+index 53a53de..a6c00fd 100644
+--- a/lib/termtter/system_extensions.rb
++++ b/lib/termtter/system_extensions.rb
+@@ -34,11 +34,21 @@ module Readline
+       ])
+       dlload(pathes.find { |path| File.exist?(path)})
+       extern 'int rl_refresh_line(int, int)'
++      extern 'int rl_delete_text(int, int)'
++
++      def self.rl_end
++        ptr = symbol 'rl_end'
++        data = ptr.to_a('I', 1)
++        data[0]
++      end
+     end
+     def self.refresh_line
+       LIBREADLINE.rl_refresh_line(0, 0)
+     end
+-  rescue Exception
++    def self.delete_text
++      LIBREADLINE.rl_delete_text(0, LIBREADLINE.rl_end)
++    end
++  rescue Exception => e
+     def self.refresh_line;end
+   end
+ end

@@ -19,15 +19,6 @@ index 079bf19..6768c9e 100644
          friends = []
          page    = 0
          begin
-@@ -25,6 +25,8 @@ module Termtter::Client
-           p friends.length
-         rescue
-         end until (tmp.empty? or friends.length > max)
-+p friends[0][:screen_name]
-+p friends[0][:following]
-         friends.take(max)
-       end
-     end
 @@ -51,7 +53,6 @@ module Termtter::Client
          TweetStream::Client.new(config.user_name, config.password).
            filter(:track => args) do |status|

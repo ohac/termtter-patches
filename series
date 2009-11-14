@@ -8,5 +8,7 @@ linefeed.patch
 gsubbugfix.patch
 memwidth.patch
 shortcut.patch
-streamdebug.patch
 friends.patch
+system_extensions.rb.diff
+streamreadline.patch
+streamdebug.patch

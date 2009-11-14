@@ -1,6 +1,6 @@
 diff --git a/lib/plugins/friends.rb b/lib/plugins/friends.rb
 new file mode 100644
-index 0000000..7816afb
+index 0000000..46b24b1
 --- /dev/null
 +++ b/lib/plugins/friends.rb
 @@ -0,0 +1,50 @@
@@ -44,10 +44,10 @@ index 0000000..7816afb
 +      friends = friends.map(&:screen_name)
 +      followers = followers.map(&:screen_name)
 +      puts "friends - followers:"
-+      puts (friends - followers).join(' ')
++      puts (friends - followers).map{|s|"http://#{config.host}/#{s}"}.join("\n")
 +      puts
 +      puts "followers - friends:"
-+      puts (followers - friends).join(' ')
++      puts (followers - friends).map{|s|"http://#{config.host}/#{s}"}.join("\n")
 +    },
 +    :help => ["diff_follow,diff",
 +        "Show difference between frineds and followers."]
