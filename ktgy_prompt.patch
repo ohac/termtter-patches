@@ -1,0 +1,248 @@
+diff --git a/lib/plugins/curry.rb b/lib/plugins/curry.rb
+deleted file mode 100644
+index 461b7b6..0000000
+--- a/lib/plugins/curry.rb
++++ /dev/null
+@@ -1,43 +0,0 @@
+-# -*- coding: utf-8 -*-
+-
+-module Termtter::Client
+-  public_storage[:curry] = ''
+-
+-  register_command(
+-    :name => :curry,
+-    :alias => :<,
+-    :exec => lambda {|arg|
+-      unless arg.empty?
+-        public_storage[:curry] += arg + ' '
+-      end
+-    },
+-    :completion => lambda {|cmd, arg|
+-      commands.map{|name, command| command.complement(arg)}.
+-        flatten.
+-        compact.
+-        map{|i| "#{cmd} #{i}"}
+-    }
+-  )
+-
+-  register_command(
+-    :name => :uncurry,
+-    :alias => :>,
+-    :exec=> lambda {|arg|
+-      public_storage[:curry] = ''
+-    }
+-  )
+-
+-  register_hook(
+-    :name => :apply_curry,
+-    :point => :prepare_command,
+-    :exec => lambda {|text|
+-      /^(curry|<|uncurry|>)/ =~ text ? text : public_storage[:curry] + text
+-    }
+-  )
+-
+-  register_hook(
+-    :name => :curry_prompt,
+-    :point => :prepare_prompt,
+-    :exec => lambda {|prompt| public_storage[:curry] + prompt }
+-  )
+-end
+diff --git a/lib/plugins/defaults/auto_reload.rb b/lib/plugins/defaults/auto_reload.rb
+index ae13bbe..6003dd6 100644
+--- a/lib/plugins/defaults/auto_reload.rb
++++ b/lib/plugins/defaults/auto_reload.rb
+@@ -2,7 +2,7 @@
+ module Termtter::Client
+   add_task(:name => :auto_reload, :interval => config.update_interval, :after => config.update_interval) do
+     begin
+-      call_commands('reload -r')
++      call_commands('reload')
+     rescue Exception => e
+       handle_error(e)
+     end
+@@ -13,7 +13,7 @@ module Termtter::Client
+     :point => :initialize,
+     :exec => lambda {
+       begin
+-        call_commands('reload -r')
++        call_commands('reload')
+       rescue Exception => e
+         handle_error(e)
+       end
+diff --git a/lib/plugins/defaults/command_line.rb b/lib/plugins/defaults/command_line.rb
+index f0166c7..03fb189 100644
+--- a/lib/plugins/defaults/command_line.rb
++++ b/lib/plugins/defaults/command_line.rb
+@@ -1,11 +1,50 @@
+ # -*- coding: utf-8 -*-
+ require 'singleton'
+ 
++config.plugins.command_line.
++  set_default(:shortcut_setting,
++              { ':' => '',
++                'd' => 'direct',
++                'D' => 'delete',
++                'f' => 'fib',
++                'F' => 'favorite',
++                'l' => 'list',
++                'o' => 'open',
++                'p' => 'profile',
++                'R' => 'reply',
++                's' => 'search',
++                't' => 'retweet',
++                'u' => 'update',
++                'c' => lambda do
++                  system('clear')
++                end,
++                'L' => lambda do
++                  puts '-' *
++                    `stty size`.chomp.
++                    sub(/^\d+\s(\d+)$/, '\\1').to_i
++                end,
++                'q' => lambda do
++                  Termtter::Client.call_commands('quit')
++                end,
++                'r' => lambda do
++                  Termtter::Client.call_commands('replies')
++                end,
++                '?' => lambda do
++                  Termtter::Client.call_commands('help')
++                end,
++                "\e" => lambda do
++                  system('screen', '-X', 'eval', 'copy')
++                end
++              })
++
+ module Termtter
+   class CommandLine
+     include Singleton
+ 
++    STTY_ORIGIN = `stty -g`.chomp
++
+     class << self
++
+       def start
+         instance.start
+       end
+@@ -48,18 +87,48 @@ module Termtter
+       setup_readline()
+       trap_setting()
+       @input_thread = Thread.new do
+-        while buf = Readline.readline(ERB.new(prompt).result(Termtter::API.twitter.__send__(:binding)), true)
+-          Readline::HISTORY.pop if buf.empty?
++        loop do
+           begin
+-            call(buf)
+-          rescue Exception => e
+-            Client.handle_error(e)
++            value = config.plugins.command_line.shortcut_setting[wait_keypress]
++            Client.pause
++            case value
++            when String
++              call_prompt(value)
++            when Proc
++              value.call
++            end
++          ensure
++            Client.resume
+           end
+         end
+       end
+       @input_thread.join
+     end
+ 
++    def call_prompt(command)
++      Client.call_commands("curry #{command}")
++      if buf = Readline.readline(ERB.new(prompt).result(Termtter::API.twitter.__send__(:binding)), true)
++        Readline::HISTORY.pop if buf.empty?
++        begin
++          call(buf)
++        rescue Exception => e
++          Client.handle_error(e)
++        end
++      else
++        puts
++      end
++    ensure
++      Client.call_commands('uncurry')
++    end
++
++    def wait_keypress
++      system('stty', '-echo', '-icanon')
++      c = STDIN.getc
++      return [c].pack('c')
++    ensure
++      system('stty', STTY_ORIGIN)
++    end
++
+     def setup_readline
+       if Readline.respond_to?(:basic_word_break_characters=)
+         Readline.basic_word_break_characters= "\t\n\"\\'`><=;|&{("
+@@ -88,17 +157,13 @@ module Termtter
+ 
+     def trap_setting()
+       begin
+-        stty_save = `stty -g`.chomp
+         trap("INT") do
+           begin
+-            system "stty", stty_save
++            system "stty", STTY_ORIGIN
+           ensure
+             Client.call_commands('exit')
+           end
+         end
+-        trap("CONT") do
+-          Readline.refresh_line
+-        end
+       rescue ArgumentError
+       rescue Errno::ENOENT
+       end
+diff --git a/lib/plugins/defaults/curry.rb b/lib/plugins/defaults/curry.rb
+new file mode 100644
+index 0000000..461b7b6
+--- /dev/null
++++ b/lib/plugins/defaults/curry.rb
+@@ -0,0 +1,43 @@
++# -*- coding: utf-8 -*-
++
++module Termtter::Client
++  public_storage[:curry] = ''
++
++  register_command(
++    :name => :curry,
++    :alias => :<,
++    :exec => lambda {|arg|
++      unless arg.empty?
++        public_storage[:curry] += arg + ' '
++      end
++    },
++    :completion => lambda {|cmd, arg|
++      commands.map{|name, command| command.complement(arg)}.
++        flatten.
++        compact.
++        map{|i| "#{cmd} #{i}"}
++    }
++  )
++
++  register_command(
++    :name => :uncurry,
++    :alias => :>,
++    :exec=> lambda {|arg|
++      public_storage[:curry] = ''
++    }
++  )
++
++  register_hook(
++    :name => :apply_curry,
++    :point => :prepare_command,
++    :exec => lambda {|text|
++      /^(curry|<|uncurry|>)/ =~ text ? text : public_storage[:curry] + text
++    }
++  )
++
++  register_hook(
++    :name => :curry_prompt,
++    :point => :prepare_prompt,
++    :exec => lambda {|prompt| public_storage[:curry] + prompt }
++  )
++end
