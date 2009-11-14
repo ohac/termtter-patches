@@ -1,24 +1,48 @@
 diff --git a/lib/plugins/defaults/command_line.rb b/lib/plugins/defaults/command_line.rb
-index 4081849..de11ced 100644
+index 4081849..46cb143 100644
 --- a/lib/plugins/defaults/command_line.rb
 +++ b/lib/plugins/defaults/command_line.rb
-@@ -109,6 +109,7 @@ module Termtter
+@@ -109,6 +109,8 @@ module Termtter
      def call_prompt(command)
        Client.call_commands("curry #{command}")
        if buf = Readline.readline(ERB.new(prompt).result(Termtter::API.twitter.__send__(:binding)), true)
 +        Readline.delete_text
++        Readline.set_prompt('')
          Readline::HISTORY.pop if buf.empty?
          begin
            call(buf)
 diff --git a/lib/termtter/client.rb b/lib/termtter/client.rb
-index 32a43d9..ea739d9 100644
+index 32a43d9..d57a1f9 100644
 --- a/lib/termtter/client.rb
 +++ b/lib/termtter/client.rb
-@@ -352,6 +352,7 @@ module Termtter
+@@ -352,6 +352,8 @@ module Termtter
              "\"#{message}".strip + "\" [N/y] "
            end
          readline = Readline.readline(prompt, false)
 +        Readline.delete_text
++        Readline.set_prompt('')
          result =
            if !!(/^$/ =~ readline) 
              default_yes
+diff --git a/lib/termtter/system_extensions.rb b/lib/termtter/system_extensions.rb
+index a6c00fd..c588431 100644
+--- a/lib/termtter/system_extensions.rb
++++ b/lib/termtter/system_extensions.rb
+@@ -35,6 +35,7 @@ module Readline
+       dlload(pathes.find { |path| File.exist?(path)})
+       extern 'int rl_refresh_line(int, int)'
+       extern 'int rl_delete_text(int, int)'
++      extern 'int rl_set_prompt(const char*)'
+ 
+       def self.rl_end
+         ptr = symbol 'rl_end'
+@@ -48,6 +49,9 @@ module Readline
+     def self.delete_text
+       LIBREADLINE.rl_delete_text(0, LIBREADLINE.rl_end)
+     end
++    def self.set_prompt(s)
++      LIBREADLINE.rl_set_prompt(s)
++    end
+   rescue Exception => e
+     def self.refresh_line;end
+   end
