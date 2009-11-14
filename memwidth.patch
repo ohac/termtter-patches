@@ -1,0 +1,18 @@
+diff --git a/lib/plugins/defaults/stdout.rb b/lib/plugins/defaults/stdout.rb
+index b6a6604..9d78f55 100755
+--- a/lib/plugins/defaults/stdout.rb
++++ b/lib/plugins/defaults/stdout.rb
+@@ -131,11 +131,12 @@ module Termtter
+         [max, uncolored(col).size].max}}
+ 
+       ws[ws.length-1] = 0
++      @ws = @ws.nil? ? ws : @ws.zip(ws).map(&:max)
+ 
+       not_replies.each do |i|
+         v = lines[i]
+         left = 0
+-        lines[i] = [ws, v, justs].transpose.map do |w, s, just|
++        lines[i] = [@ws, v, justs].transpose.map do |w, s, just|
+           first = true
+           left += w
+           s.map do |line|
