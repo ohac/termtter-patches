@@ -19,19 +19,3 @@ index 079bf19..6768c9e 100644
          friends = []
          page    = 0
          begin
-@@ -51,7 +53,6 @@ module Termtter::Client
-         TweetStream::Client.new(config.user_name, config.password).
-           filter(:track => args) do |status|
-           output [Termtter::ActiveRubytter.new(status)], :update_friends_timeline
--          Readline.refresh_line
-         end
-       end
-     end
-@@ -101,7 +102,6 @@ module Termtter::Client
-           TweetStream::Client.new(config.user_name, config.password).
-             filter(:follow => current_targets) do |status|
-             output [Termtter::ActiveRubytter.new(status)], :update_friends_timeline
--            Readline.refresh_line
-           end
-         rescue(NoMethodError) => e    # #<NoMethodError: private method `split' called for nil:NilClass>
-           puts "stream seems broken (#{e.inspect})."
