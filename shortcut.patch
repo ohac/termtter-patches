@@ -1,0 +1,12 @@
+diff --git a/lib/plugins/defaults/command_line.rb b/lib/plugins/defaults/command_line.rb
+index 03fb189..4081849 100644
+--- a/lib/plugins/defaults/command_line.rb
++++ b/lib/plugins/defaults/command_line.rb
+@@ -4,6 +4,7 @@ require 'singleton'
+ config.plugins.command_line.
+   set_default(:shortcut_setting,
+               { ':' => '',
++                '\'' => '',
+                 'd' => 'direct',
+                 'D' => 'delete',
+                 'f' => 'fib',
