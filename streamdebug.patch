@@ -1,0 +1,20 @@
+diff --git a/lib/plugins/stream.rb b/lib/plugins/stream.rb
+index 079bf19..872d30b 100644
+--- a/lib/plugins/stream.rb
++++ b/lib/plugins/stream.rb
+@@ -51,7 +51,6 @@ module Termtter::Client
+         TweetStream::Client.new(config.user_name, config.password).
+           filter(:track => args) do |status|
+           output [Termtter::ActiveRubytter.new(status)], :update_friends_timeline
+-          Readline.refresh_line
+         end
+       end
+     end
+@@ -101,7 +100,6 @@ module Termtter::Client
+           TweetStream::Client.new(config.user_name, config.password).
+             filter(:follow => current_targets) do |status|
+             output [Termtter::ActiveRubytter.new(status)], :update_friends_timeline
+-            Readline.refresh_line
+           end
+         rescue(NoMethodError) => e    # #<NoMethodError: private method `split' called for nil:NilClass>
+           puts "stream seems broken (#{e.inspect})."
