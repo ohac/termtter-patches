@@ -1,0 +1,29 @@
+diff --git a/lib/termtter/system_extensions.rb b/lib/termtter/system_extensions.rb
+index 67cde7d..b76df2c 100644
+--- a/lib/termtter/system_extensions.rb
++++ b/lib/termtter/system_extensions.rb
+@@ -31,6 +31,9 @@ module Readline
+   ffi_lib(pathes.find { |path| File.exist?(path) })
+ 
+   attach_function :rl_refresh_line, [:int, :int], :int
++  attach_function :rl_delete_text, [:int, :int], :int
++  attach_function :rl_set_prompt, :string, :int
++  attach_variable :rl_end, :int
+   attach_variable :rl_line_buffer, :string
+ 
+   class << self
+@@ -41,6 +44,14 @@ module Readline
+     def line_buffer
+       rl_line_buffer
+     end
++
++    def delete_text
++      rl_delete_text(0, rl_end)
++    end
++
++    def set_prompt(s)
++      rl_set_prompt(s)
++    end
+   end
+ end
+ 

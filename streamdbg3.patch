@@ -1,3 +1,16 @@
+diff --git a/lib/termtter/client.rb b/lib/termtter/client.rb
+index 32a43d9..d57a1f9 100644
+--- a/lib/termtter/client.rb
++++ b/lib/termtter/client.rb
+@@ -352,6 +352,8 @@ module Termtter
+             "\"#{message}".strip + "\" [N/y] "
+           end
+         readline = Readline.readline(prompt, false)
++        Readline.delete_text
++        Readline.set_prompt('')
+         result =
+           if !!(/^$/ =~ readline) 
+             default_yes
 diff --git a/lib/plugins/another_prompt.rb b/lib/plugins/another_prompt.rb
 index 702c235..d692a72 100644
 --- a/lib/plugins/another_prompt.rb
