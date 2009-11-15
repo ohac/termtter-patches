@@ -1,0 +1,13 @@
+diff --git a/lib/plugins/defaults/command_line.rb b/lib/plugins/defaults/command_line.rb
+index 4081849..46cb143 100644
+--- a/lib/plugins/defaults/command_line.rb
++++ b/lib/plugins/defaults/command_line.rb
+@@ -109,6 +109,8 @@ module Termtter
+     def call_prompt(command)
+       Client.call_commands("curry #{command}")
+       if buf = Readline.readline(ERB.new(prompt).result(Termtter::API.twitter.__send__(:binding)), true)
++        Readline.delete_text
++        Readline.set_prompt('')
+         Readline::HISTORY.pop if buf.empty?
+         begin
+           call(buf)

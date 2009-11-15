@@ -3,8 +3,10 @@ pp.patch
 pp2.patch
 pp3.patch
 memwidth.patch
-ktgy_prompt.patch
-shortcut.patch
+ktgy_prompt.patch #+prompt
+shortcut.patch #+prompt
 system_extensions.rb.diff
 streamreadline.patch
+streamreadline2.patch #+prompt
 friendsauto.patch
+another_prompt.patch #-prompt
