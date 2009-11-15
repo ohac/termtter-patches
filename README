@@ -1,9 +1,7 @@
 spec通らないのをなんとかする
-another_prompt.rb pluginに切り換える
-readlineプロンプトまわりの把握とstreamデバッグ
 streamでtypable idを
 重複したmessageは表示しないように
 RT元のmessageがあればtypable idに変換
-diffでspam度やbot度でsort
-diffでspamやbotの個人辞書/共有辞書を
+diff_followでspam度やbot度でsort
+diff_followでspamやbotの個人辞書/共有辞書を
 URLは改行しない linefeed plugin
