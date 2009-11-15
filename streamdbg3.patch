@@ -1,0 +1,26 @@
+diff --git a/lib/plugins/another_prompt.rb b/lib/plugins/another_prompt.rb
+index 702c235..d692a72 100644
+--- a/lib/plugins/another_prompt.rb
++++ b/lib/plugins/another_prompt.rb
+@@ -94,6 +94,8 @@ module Termtter
+     def call_prompt(command)
+       Client.call_commands("curry #{command}")
+       if buf = Readline.readline(ERB.new(prompt).result(Termtter::API.twitter.__send__(:binding)), true)
++        Readline.delete_text
++        Readline.set_prompt('')
+         Readline::HISTORY.pop if buf.empty?
+         begin
+           call(buf)
+diff --git a/lib/plugins/defaults/command_line.rb b/lib/plugins/defaults/command_line.rb
+index f0166c7..bdac10a 100644
+--- a/lib/plugins/defaults/command_line.rb
++++ b/lib/plugins/defaults/command_line.rb
+@@ -49,6 +49,8 @@ module Termtter
+       trap_setting()
+       @input_thread = Thread.new do
+         while buf = Readline.readline(ERB.new(prompt).result(Termtter::API.twitter.__send__(:binding)), true)
++          Readline.delete_text
++          Readline.set_prompt('')
+           Readline::HISTORY.pop if buf.empty?
+           begin
+             call(buf)

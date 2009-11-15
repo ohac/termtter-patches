@@ -6,3 +6,4 @@ streamでtypable idを
 RT元のmessageがあればtypable idに変換
 diffでspam度やbot度でsort
 diffでspamやbotの個人辞書/共有辞書を
+URLは改行しない linefeed plugin
