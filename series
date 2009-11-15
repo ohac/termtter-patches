@@ -9,7 +9,6 @@ system_extensions.rb.diff
 streamreadline.patch
 streamreadline2.patch #+prompt
 friendsauto.patch
-streamdbg2.patch
 another_prompt.patch
 anotherprmptdbg.patch
 shortcut2.patch
