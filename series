@@ -6,7 +6,9 @@ memwidth.patch
 system_extensions.rb.diff
 streamreadline.patch
 friendsauto.patch
-another_prompt.patch
-anotherprmptdbg.patch
+another_prompt.patch #+conflict
+anotherprmptdbg.patch #+conflict
 shortcut2.patch
 streamdbg3.patch
+shortcut3.patch
+typableid.patch

@@ -5,3 +5,4 @@ RT元のmessageがあればtypable idに変換
 diff_followでspam度やbot度でsort
 diff_followでspamやbotの個人辞書/共有辞書を
 URLは改行しない linefeed plugin
+xterm内にicon表示(w3mっぽく)
