@@ -1,0 +1,12 @@
+diff --git a/lib/plugins/another_prompt.rb b/lib/plugins/another_prompt.rb
+index f5a0bc1..702c235 100644
+--- a/lib/plugins/another_prompt.rb
++++ b/lib/plugins/another_prompt.rb
+@@ -3,6 +3,7 @@
+ config.plugins.another_prompt.
+   set_default(:shortcut_setting,
+               { ':' => '',
++                '\'' => '',
+                 'd' => 'direct',
+                 'D' => 'delete',
+                 'f' => 'fib',

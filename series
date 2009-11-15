@@ -10,3 +10,5 @@ streamreadline.patch
 streamreadline2.patch #+prompt
 friendsauto.patch
 another_prompt.patch
+anotherprmptdbg.patch
+shortcut2.patch
