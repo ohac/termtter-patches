@@ -1,10 +1,10 @@
 ffi.patch
-ffisetprmpt.patch
 specfail.patch
 pp.patch
 pp2.patch
 pp3.patch
 memwidth.patch
+ffisetprmpt.patch
 system_extensions.rb.diff #+conflict
 streamreadline.patch #+conflict
 friendsauto.patch
