@@ -1,9 +1,9 @@
 ffi.patch
 ffi2.patch
 specfail.patch
-pp.patch
-pp2.patch
-pp3.patch
+pp.patch #+conflict
+pp2.patch #+conflict
+pp3.patch #+conflict
 memwidth.patch
 ffisetprmpt.patch
 friendsauto.patch
