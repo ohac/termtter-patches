@@ -6,11 +6,7 @@ pp2.patch
 pp3.patch
 memwidth.patch
 ffisetprmpt.patch
-system_extensions.rb.diff #+conflict
-streamreadline.patch #+conflict
 friendsauto.patch
-another_prompt.patch #+conflict
-anotherprmptdbg.patch #+conflict
 shortcut2.patch
 streamdbg3.patch
 shortcut3.patch
