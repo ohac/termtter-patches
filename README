@@ -1,3 +1,4 @@
+stdout系のパッチをなんとかする
 spec通らないのをなんとかする
 streamでtypable idを
 重複したmessageは表示しないように
@@ -8,7 +9,10 @@ URLは改行しない linefeed plugin
 xterm内にicon表示(w3mっぽく)
 truncateでなんもなしupdateをするとNo Method Error
 linuxだと入力中の更新が止まっていないように見える
-fibが立ち上げ時にCPUを使うのを抑制
-streamでfriendsじゃない人のTLが流れてくる
+streamでfriendsと全く無関係な人のTLが流れてくる
+streamで自分のTLに流れてこないTLのみ流す(not friend <-> friendの会話を見る)
+streamをDRYに
 立ち上げ時に r を実行したい
+keywordでのpolling pluginを探して取り込む
 自分以外の friends を見たときは storage に入れないようにする
+fibが立ち上げ時にCPUを使うのを抑制(ただの実験ブランチ)
