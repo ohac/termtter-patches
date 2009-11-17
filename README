@@ -16,3 +16,4 @@ streamをDRYに
 keywordでのpolling pluginを探して取り込む
 自分以外の friends を見たときは storage に入れないようにする
 fibが立ち上げ時にCPUを使うのを抑制(ただの実験ブランチ)
+streamをthread safeに
