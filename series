@@ -2,7 +2,7 @@ stdout.patch
 stdout2.patch
 ffi.patch
 ffi2.patch
-specfail.patch
+specfail.patch #+conflict
 pp.patch
 pp2.patch
 pp3.patch
