@@ -1,9 +1,9 @@
 diff --git a/lib/plugins/w3mimg.rb b/lib/plugins/w3mimg.rb
 new file mode 100644
-index 0000000..5a9fd6e
+index 0000000..33031fc
 --- /dev/null
 +++ b/lib/plugins/w3mimg.rb
-@@ -0,0 +1,61 @@
+@@ -0,0 +1,70 @@
 +# -*- coding: utf-8 -*-
 +require 'fileutils'
 +require 'RMagick' # apt-get install librmagick-ruby
@@ -45,18 +45,27 @@ index 0000000..5a9fd6e
 +  W3MIMG = '/usr/lib/w3m/w3mimgdisplay'
 +  W3MIMGSTDIN, stdout, stderr = *Open3.popen3(W3MIMG)
 +
++  sizestr = `#{W3MIMG} -test`.chomp
++  PW, PH = sizestr.split.map(&:to_i)
++  CH, CW = `stty size`.scan(/\d+/).map { |s| s.to_i }
++  LINEH = PH / CH
++
 +  register_hook(
 +    :name => :w3mimg,
 +    :points => [:output],
 +    :exec_proc => lambda {|statuses, event|
 +      return unless event == :update_friends_timeline
 +      Thread.start do
++        sleep 0.5
++        w, h = 48, 48
++        x = PW - w
++        y = PH - LINEH * 2
++        sh = LINEH * 1
 +        statuses.each do |s|
 +          begin
-+            x, y = 400, 100
 +            file = get_icon_path(s)
-+            W3MIMGSTDIN.print "2;3;\n0;1;#{x};#{y};0;0;0;0;0;0;#{file}\n4\n3;\n"
-+            sleep 1
++            W3MIMGSTDIN.print "2;3;\n0;1;#{x};#{y};#{w};#{h};0;0;0;#{sh};#{file}\n4\n3;\n"
++            y -= LINEH * 1
 +          rescue
 +          end
 +        end
