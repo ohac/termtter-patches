@@ -1,5 +1,5 @@
 stdout系のパッチをなんとかする(another_stdout?) -> reduce_text pluginは今は使えない
-spec通らないのをなんとかする
+spec通らないのをなんとかする -> とりあえずsort!
 streamでtypable idを
 重複したmessageは表示しないように
 RT元のmessageがあればtypable idに変換
@@ -25,3 +25,4 @@ setでパスワードがまる見え問題
 mixi echo?
 tail -fとかをfifoかUDPで取り込む機能
 update draft queue
+aa_profileブランチをpython-aafigure対応させる
