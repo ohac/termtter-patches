@@ -1,4 +1,4 @@
-stdout系のパッチをなんとかする
+stdout系のパッチをなんとかする(another_stdout?) -> reduce_text pluginは今は使えない
 spec通らないのをなんとかする
 streamでtypable idを
 重複したmessageは表示しないように
@@ -19,3 +19,9 @@ fibが立ち上げ時にCPUを使うのを抑制(ただの実験ブランチ)
 streamをthread safeに
 顔文字ジェネレータ
 last.fm
+特定キーワード(地震とか)をまとめて位置情報をつけて出力
+メモリ増加問題 -> DB化とは別の視点で考えたい
+setでパスワードがまる見え問題
+mixi echo?
+tail -fとかをfifoかUDPで取り込む機能
+update draft queue
