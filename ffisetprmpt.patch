@@ -1,5 +1,5 @@
 diff --git a/lib/termtter/system_extensions.rb b/lib/termtter/system_extensions.rb
-index aee63b2..7396e68 100644
+index aee63b2..36bf56d 100644
 --- a/lib/termtter/system_extensions.rb
 +++ b/lib/termtter/system_extensions.rb
 @@ -22,6 +22,9 @@ module Readline
@@ -19,7 +19,7 @@ index aee63b2..7396e68 100644
 +
 +    def delete_text
 +      e = rl_end
-+      rl_delete_text(0, rl_end) if e > 0
++      rl_delete_text(0, e) if e > 0
 +    end
 +
 +    def set_prompt(s)
