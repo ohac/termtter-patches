@@ -6,7 +6,7 @@ RT元のmessageがあればtypable idに変換
 diff_followでspam度やbot度でsort
 diff_followでspamやbotの個人辞書/共有辞書を
 URLは改行しない linefeed plugin
-xterm内にicon表示(w3mっぽく)
+xterm内にicon表示(w3mっぽく) -> get_icon_pathがDRYじゃない
 truncateでなんもなしupdateをするとNo Method Error
 linuxだと入力中の更新が止まっていないように見える
 streamでfriendsと全く無関係な人のTLが流れてくる
