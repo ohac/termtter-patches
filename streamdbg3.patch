@@ -1,16 +1,3 @@
-diff --git a/lib/termtter/client.rb b/lib/termtter/client.rb
-index 32a43d9..d57a1f9 100644
---- a/lib/termtter/client.rb
-+++ b/lib/termtter/client.rb
-@@ -352,6 +352,8 @@ module Termtter
-             "\"#{message}".strip + "\" [N/y] "
-           end
-         readline = Readline.readline(prompt, false)
-+        Readline.delete_text
-+        Readline.set_prompt('')
-         result =
-           if !!(/^$/ =~ readline) 
-             default_yes
 diff --git a/lib/plugins/another_prompt.rb b/lib/plugins/another_prompt.rb
 index 702c235..d692a72 100644
 --- a/lib/plugins/another_prompt.rb
@@ -37,3 +24,30 @@ index f0166c7..bdac10a 100644
            Readline::HISTORY.pop if buf.empty?
            begin
              call(buf)
+diff --git a/lib/termtter/client.rb b/lib/termtter/client.rb
+index 28d6913..c5eaf3e 100644
+--- a/lib/termtter/client.rb
++++ b/lib/termtter/client.rb
+@@ -363,6 +363,8 @@ module Termtter
+             "\"#{message}".strip + "\" [N/y] "
+           end
+         readline = Readline.readline(prompt, false)
++        Readline.delete_text
++        Readline.set_prompt('')
+         result =
+           if !!(/^$/ =~ readline) 
+             default_yes
+diff --git a/lib/termtter/system_extensions.rb b/lib/termtter/system_extensions.rb
+index 1584834..7396e68 100644
+--- a/lib/termtter/system_extensions.rb
++++ b/lib/termtter/system_extensions.rb
+@@ -37,7 +37,8 @@ module Readline
+     end
+ 
+     def delete_text
+-      rl_delete_text(0, rl_end)
++      e = rl_end
++      rl_delete_text(0, rl_end) if e > 0
+     end
+ 
+     def set_prompt(s)

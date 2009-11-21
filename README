@@ -26,3 +26,5 @@ mixi echo?
 tail -fとかをfifoかUDPで取り込む機能
 update draft queue
 aa_profileブランチをpython-aafigure対応させる
+新規pluginはgemspecに追加しないといけない?
+空気を読むCTRL-L
