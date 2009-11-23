@@ -1,9 +1,9 @@
 diff --git a/lib/plugins/w3mimg.rb b/lib/plugins/w3mimg.rb
 new file mode 100644
-index 0000000..6bafc22
+index 0000000..895e43e
 --- /dev/null
 +++ b/lib/plugins/w3mimg.rb
-@@ -0,0 +1,71 @@
+@@ -0,0 +1,77 @@
 +# -*- coding: utf-8 -*-
 +require 'fileutils'
 +require 'RMagick' # apt-get install librmagick-ruby
@@ -49,6 +49,7 @@ index 0000000..6bafc22
 +  PW, PH = sizestr.split.map(&:to_i)
 +  CH, CW = `stty size`.scan(/\d+/).map { |s| s.to_i }
 +  LINEH = PH / CH
++  @w3mimgicons = []
 +
 +  register_hook(
 +    :name => :w3mimg,
@@ -56,15 +57,20 @@ index 0000000..6bafc22
 +    :exec_proc => lambda {|statuses, event|
 +      return unless event == :update_friends_timeline
 +      Thread.start do
++        newicons = statuses.reverse.map do |s|
++          lines = [(s.text.size / 40) + 1, 3].min
++          file = get_icon_path(s)
++          [file, lines]
++        end
++        @w3mimgicons = (newicons + @w3mimgicons).take(CH)
 +        sleep 0.5
 +        w, h = 48, 48
 +        x = PW - w
 +        y = PH - LINEH
 +        total = 0
-+        statuses.reverse.each do |s|
-+          lines = [(s.text.size / 40).to_i + 1, 3].min
++        @w3mimgicons.each do |i|
++          file, lines = i
 +          sh = LINEH * lines
-+          file = get_icon_path(s)
 +          y -= sh
 +          W3MIMGSTDIN.print "2;3;\n0;1;#{x};#{y};#{w};#{h};0;0;0;#{sh};#{file}\n4\n3;\n"
 +          total += lines
