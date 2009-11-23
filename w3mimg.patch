@@ -1,16 +1,16 @@
 diff --git a/lib/plugins/w3mimg.rb b/lib/plugins/w3mimg.rb
 new file mode 100644
-index 0000000..33031fc
+index 0000000..6bafc22
 --- /dev/null
 +++ b/lib/plugins/w3mimg.rb
-@@ -0,0 +1,70 @@
+@@ -0,0 +1,71 @@
 +# -*- coding: utf-8 -*-
 +require 'fileutils'
 +require 'RMagick' # apt-get install librmagick-ruby
 +require 'uri'
 +require 'open3'
 +
-+# Copy from notify-send3.rb
++# TODO should be DRY: Copy from notify-send3.rb
 +config.plugins.notify_send.set_default(:icon_cache_dir, "#{Termtter::CONF_DIR}/tmp/user_profile_images")
 +def get_icon_path(s)
 +  FileUtils.mkdir_p(config.plugins.notify_send.icon_cache_dir) unless File.exist?(config.plugins.notify_send.icon_cache_dir)
@@ -59,15 +59,16 @@ index 0000000..33031fc
 +        sleep 0.5
 +        w, h = 48, 48
 +        x = PW - w
-+        y = PH - LINEH * 2
-+        sh = LINEH * 1
-+        statuses.each do |s|
-+          begin
-+            file = get_icon_path(s)
-+            W3MIMGSTDIN.print "2;3;\n0;1;#{x};#{y};#{w};#{h};0;0;0;#{sh};#{file}\n4\n3;\n"
-+            y -= LINEH * 1
-+          rescue
-+          end
++        y = PH - LINEH
++        total = 0
++        statuses.reverse.each do |s|
++          lines = [(s.text.size / 40).to_i + 1, 3].min
++          sh = LINEH * lines
++          file = get_icon_path(s)
++          y -= sh
++          W3MIMGSTDIN.print "2;3;\n0;1;#{x};#{y};#{w};#{h};0;0;0;#{sh};#{file}\n4\n3;\n"
++          total += lines
++          break if total > CH
 +        end
 +      end
 +    }
