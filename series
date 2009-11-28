@@ -1,7 +1,7 @@
 stdout.patch
 stdout2.patch
 ffi.patch
-ffi2.patch
+ffi2.patch #+conflict
 specfail.patch #+conflict
 pp.patch #+old
 pp2.patch #+old
