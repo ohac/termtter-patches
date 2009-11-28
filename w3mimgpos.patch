@@ -1,0 +1,80 @@
+diff --git a/lib/plugins/another_prompt.rb b/lib/plugins/another_prompt.rb
+index 7303071..f2e2bc8 100644
+--- a/lib/plugins/another_prompt.rb
++++ b/lib/plugins/another_prompt.rb
+@@ -66,6 +66,8 @@ module Termtter::Client
+   )
+ end
+ 
++#require 'g'
++
+ module Termtter
+   class CommandLine
+     include Singleton
+@@ -78,7 +80,14 @@ module Termtter
+       @input_thread = Thread.new do
+         loop do
+           begin
+-            value = config.plugins.another_prompt.shortcut_setting[wait_keypress]
++            str = wait_keypress
++            if str.size > 1
++              e = str.split(';')
++              $cy, $cx = [e[0][1..-1].to_i, e[1][0..-2].to_i]
++#g [$cx, $cy]
++            else
++              value = config.plugins.another_prompt.shortcut_setting[str]
++            end
+             Client.pause
+             case value
+             when String
+@@ -112,10 +121,19 @@ module Termtter
+       Client.call_commands('uncurry')
+     end
+ 
+-    def wait_keypress
++    def wait_keypress()
+       system('stty', '-echo', '-icanon')
+       c = STDIN.getc
+-      return [c].pack('c')
++      if c == 0x1b
++        cs = []
++        while (c = STDIN.getc) != 82 do # 82 == 'R'.unpack('c')
++          cs << c
++        end
++        cs << 82
++        cs.pack('c*')
++      else
++        [c].pack('c')
++      end
+     ensure
+       system('stty', STTY_ORIGIN)
+     end
+diff --git a/lib/plugins/w3mimg.rb b/lib/plugins/w3mimg.rb
+index 9975465..10868a6 100644
+--- a/lib/plugins/w3mimg.rb
++++ b/lib/plugins/w3mimg.rb
+@@ -4,6 +4,7 @@ require 'RMagick' # apt-get install librmagick-ruby
+ require 'uri'
+ require 'open3'
+ require 'terminfo'
++#require 'g'
+ 
+ # TODO should be DRY: Copy from notify-send3.rb
+ config.plugins.notify_send.set_default(:icon_cache_dir, "#{Termtter::CONF_DIR}/tmp/user_profile_images")
+@@ -58,10 +59,14 @@ module Termtter::Client
+           [file, lines]
+         end
+         @w3mimgicons = (newicons + @w3mimgicons).take(CH)
+-        sleep 0.5
++        sleep 1
++        STDOUT.print("\e[6n") # get cursor position
++        STDOUT.flush
++        sleep 1
+         w, h = 48, 48
+         x = PW - w
+-        y = PH - LINEH
++#g $cy # see another_prompt.rb
++        y = $cy ? LINEH * ($cy - 1) : PH - LINEH
+         @w3mimgicons.each do |i|
+           file, lines = i
+           sh = LINEH * lines
