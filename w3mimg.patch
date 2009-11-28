@@ -1,14 +1,15 @@
 diff --git a/lib/plugins/w3mimg.rb b/lib/plugins/w3mimg.rb
 new file mode 100644
-index 0000000..895e43e
+index 0000000..9975465
 --- /dev/null
 +++ b/lib/plugins/w3mimg.rb
-@@ -0,0 +1,77 @@
+@@ -0,0 +1,76 @@
 +# -*- coding: utf-8 -*-
 +require 'fileutils'
 +require 'RMagick' # apt-get install librmagick-ruby
 +require 'uri'
 +require 'open3'
++require 'terminfo'
 +
 +# TODO should be DRY: Copy from notify-send3.rb
 +config.plugins.notify_send.set_default(:icon_cache_dir, "#{Termtter::CONF_DIR}/tmp/user_profile_images")
@@ -47,7 +48,7 @@ index 0000000..895e43e
 +
 +  sizestr = `#{W3MIMG} -test`.chomp
 +  PW, PH = sizestr.split.map(&:to_i)
-+  CH, CW = `stty size`.scan(/\d+/).map { |s| s.to_i }
++  CH, CW = TermInfo.screen_size()
 +  LINEH = PH / CH
 +  @w3mimgicons = []
 +
@@ -58,7 +59,7 @@ index 0000000..895e43e
 +      return unless event == :update_friends_timeline
 +      Thread.start do
 +        newicons = statuses.reverse.map do |s|
-+          lines = [(s.text.size / 40) + 1, 3].min
++          lines = s.text.count("\n") + 1
 +          file = get_icon_path(s)
 +          [file, lines]
 +        end
@@ -67,14 +68,12 @@ index 0000000..895e43e
 +        w, h = 48, 48
 +        x = PW - w
 +        y = PH - LINEH
-+        total = 0
 +        @w3mimgicons.each do |i|
 +          file, lines = i
 +          sh = LINEH * lines
 +          y -= sh
 +          W3MIMGSTDIN.print "2;3;\n0;1;#{x};#{y};#{w};#{h};0;0;0;#{sh};#{file}\n4\n3;\n"
-+          total += lines
-+          break if total > CH
++          break if y <= 0
 +        end
 +      end
 +    }
