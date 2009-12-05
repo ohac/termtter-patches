@@ -1,16 +1,16 @@
 stdout.patch
 stdout2.patch
-ffi.patch
+ffi.patch #+conflict
 ffi2.patch #+conflict
 specfail.patch #+conflict
 pp.patch #+old
 pp2.patch #+old
 pp3.patch #+old
 memwidth.patch #+old
-ffisetprmpt.patch
+ffisetprmpt.patch #+conflict
 friendsauto.patch
 shortcut2.patch
-streamdbg3.patch
+streamdbg3.patch #+depend
 shortcut3.patch
 typableid.patch
 anotherstdout.patch
