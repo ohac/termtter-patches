@@ -1,0 +1,13 @@
+diff --git a/lib/plugins/w3mimg.rb b/lib/plugins/w3mimg.rb
+index 10868a6..ee4d23c 100644
+--- a/lib/plugins/w3mimg.rb
++++ b/lib/plugins/w3mimg.rb
+@@ -28,6 +28,8 @@ def get_icon_path(s)
+         rimage = Magick::Image.from_blob(image).first
+         rimage = rimage.resize_to_fill(48, 48)
+         f << rimage.to_blob
++      rescue Magick::ImageMagickError
++        return nil
+       rescue Net::ProtocolError
+         return nil
+       end
