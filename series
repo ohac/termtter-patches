@@ -1,5 +1,5 @@
-stdout.patch
-stdout2.patch
+stdout.patch #+conflict
+stdout2.patch #+conflict
 ffi.patch #+conflict
 ffi2.patch #+conflict
 specfail.patch #+conflict
