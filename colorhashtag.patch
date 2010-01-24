@@ -1,0 +1,15 @@
+diff --git a/lib/plugins/another_stdout.rb b/lib/plugins/another_stdout.rb
+index 2a00732..516c5ed 100755
+--- a/lib/plugins/another_stdout.rb
++++ b/lib/plugins/another_stdout.rb
+@@ -140,8 +140,8 @@ module Termtter
+       texts
+     end
+ 
+-    def colorize_users(text)
+-      text.gsub(/@(\w+)/) do |i|
++    def colorize_users(text, prefix = '@')
++      text.gsub(/#{prefix}(\w+)/) do |i|
+         color = user_color(i)
+         "<#{color}>#{i}</#{color}>"
+       end
