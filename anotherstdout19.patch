@@ -1,0 +1,13 @@
+diff --git a/lib/plugins/another_stdout.rb b/lib/plugins/another_stdout.rb
+index 71e5f89..d99d489 100755
+--- a/lib/plugins/another_stdout.rb
++++ b/lib/plugins/another_stdout.rb
+@@ -69,7 +69,7 @@ module Termtter
+         lines[i] = [@ws, v, justs].transpose.map do |w, s, just|
+           first = true
+           left += w
+-          s.map do |line|
++          s.each_line.map do |line|
+             adjusted = line.__send__(just, w + line.size - uncolored(line).size)
+             margin = first ? '' : ' ' * (left - w)
+             first = false
