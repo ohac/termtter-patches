@@ -1,0 +1,16 @@
+diff --git a/lib/plugins/w3mimg.rb b/lib/plugins/w3mimg.rb
+index 6d94133..6564d77 100644
+--- a/lib/plugins/w3mimg.rb
++++ b/lib/plugins/w3mimg.rb
+@@ -71,7 +71,11 @@ module Termtter::Client
+           file, lines = i
+           sh = LINEH * lines
+           y -= sh
++begin
+           W3MIMGSTDIN.print "2;3;\n0;1;#{x};#{y};#{w};#{h};0;0;0;#{sh};#{file}\n4\n3;\n"
++rescue => x
++p x
++end
+           break if y <= 0
+         end
+       end
