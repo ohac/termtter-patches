@@ -1,0 +1,37 @@
+diff --git a/lib/plugins/another_stdout.rb b/lib/plugins/another_stdout.rb
+index 516c5ed..71e5f89 100755
+--- a/lib/plugins/another_stdout.rb
++++ b/lib/plugins/another_stdout.rb
+@@ -1,4 +1,6 @@
+ # -*- coding: utf-8 -*-
++require 'zlib'
++
+ module Termtter
+ 
+   class AnotherStdOut < Hook
+@@ -83,7 +85,7 @@ module Termtter
+     def status_line(s, time_format, event, indent = 0)
+       return [] unless s
+       text = TermColor.escape(s.text)
+-      color = config.plugins.stdout.colors[s.user.name.hash % config.plugins.stdout.colors.size]
++      color = string_color(s.user.name)
+       status_id = Termtter::Client.data_to_typable_id(s.id)
+       reply_to_status_id =
+         if s.in_reply_to_status_id.nil?
+@@ -142,13 +144,13 @@ module Termtter
+ 
+     def colorize_users(text, prefix = '@')
+       text.gsub(/#{prefix}(\w+)/) do |i|
+-        color = user_color(i)
++        color = string_color(i)
+         "<#{color}>#{i}</#{color}>"
+       end
+     end
+ 
+-    def user_color(user)
+-      config.plugins.stdout.colors[user.hash % config.plugins.stdout.colors.size]
++    def string_color(str)
++      config.plugins.stdout.colors[Zlib.crc32(str) % config.plugins.stdout.colors.size]
+     end
+   end
+ 
