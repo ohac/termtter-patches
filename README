@@ -28,3 +28,5 @@ update draft queue
 aa_profileブランチをpython-aafigure対応させる
 新規pluginはgemspecに追加しないといけない?
 空気を読むCTRL-L
+more plugin ("32 new tweets." のようなやつ)
+コピペモード (改行コードでupdateされないような仕掛け。しかし、どう実現する?)

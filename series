@@ -21,3 +21,5 @@ userhashcolor.patch
 colorhashtag.patch
 crc32color.patch
 anotherstdout19.patch
+strip.patch
+fixcolor.patch

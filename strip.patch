@@ -1,0 +1,16 @@
+diff --git a/lib/plugins/linefeed.rb b/lib/plugins/linefeed.rb
+index f769ce6..058b65a 100644
+--- a/lib/plugins/linefeed.rb
++++ b/lib/plugins/linefeed.rb
+@@ -22,9 +22,10 @@ Termtter::Client.register_hook(
+             sz += sz2
+             sz < width || (sz2 == 1 && c != 32)
+           end
++          l.pop if l.last == 32
+           ocs += l
+           cs = cs.drop(l.size)
+-          cs = cs.drop(1) if cs[0] == 32
++          cs = cs.drop_while{|c|c == 32}
+           ocs += [0x0a]
+         end
+       end
