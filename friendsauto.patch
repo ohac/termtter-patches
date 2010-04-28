@@ -1,8 +1,8 @@
 diff --git a/lib/plugins/friends.rb b/lib/plugins/friends.rb
-index 46b24b1..20d3bc7 100644
+index 09d5fcf..f61a45f 100644
 --- a/lib/plugins/friends.rb
 +++ b/lib/plugins/friends.rb
-@@ -29,14 +29,16 @@ module Termtter::Client
+@@ -4,14 +4,16 @@ module Termtter::Client
      :name => :diff_follow, :aliases => [:diff],
      :exec_proc => lambda {|arg|
        user_name = arg.empty? ? config.user_name : arg

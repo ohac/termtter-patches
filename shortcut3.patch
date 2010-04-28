@@ -1,14 +1,12 @@
 diff --git a/lib/plugins/another_prompt.rb b/lib/plugins/another_prompt.rb
-index d692a72..7303071 100644
+index 25b0cb5..e3ecdb4 100644
 --- a/lib/plugins/another_prompt.rb
 +++ b/lib/plugins/another_prompt.rb
-@@ -16,6 +16,9 @@ config.plugins.another_prompt.
-                 't' => 'retweet',
-                 'u' => 'update',
-                 'c' => lambda do
-+                  puts '-' *
-+                    `stty size`.chomp.
-+                    sub(/^\d+\s(\d+)$/, '\\1').to_i
-                   system('clear')
-                 end,
-                 'L' => lambda do
+@@ -17,6 +17,7 @@ config.plugins.another_prompt.
+       't' => 'retweet',
+       'u' => 'update',
+       'c' => lambda do
++        puts '-' * `stty size`.chomp.sub(/^\d+\s(\d+)$/, '\\1').to_i
+         system('clear')
+       end,
+       'L' => lambda do
